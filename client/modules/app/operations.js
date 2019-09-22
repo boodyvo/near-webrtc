@@ -27,6 +27,11 @@ export const signInNearWallet = () => (dispatch, getState) => {
     getState().app.walletAccount.requestSignIn(consts.NEAR_CONFIG.contractName, consts.NEAR_CONFIG.CONTRACT_NAME)
 };
 
+export const signOutNearWallet = () => (dispatch, getState) => {
+    getState().app.walletAccount.signOut();
+    dispatch(actions.setAccountId(null));
+};
+
 export const connectSocket = () => (dispatch, getState) => {
     console.log("Will connect to", SOCKET_HOST);
     const socket = io(SOCKET_HOST);

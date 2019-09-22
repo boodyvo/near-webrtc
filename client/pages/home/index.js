@@ -21,6 +21,7 @@ class HomePage extends Component {
 
         this.handleRoomCreation = this.handleRoomCreation.bind(this);
         this.handleSignIn = this.handleSignIn.bind(this);
+        this.handleSignOut = this.handleSignOut.bind(this);
     }
 
     handleRoomCreation() {
@@ -40,7 +41,18 @@ class HomePage extends Component {
         signInNearWallet();
     }
 
+    handleSignOut() {
+        const { signOutNearWallet, accountId } = this.props;
+        console.log("sign out", accountId);
+        console.log(signOutNearWallet);
+        signOutNearWallet();
+    }
+
     render() {
+        const { accountId } = this.props;
+        const isSignedIn = !(accountId == undefined || accountId == null || accountId == "");
+        const nameSignButton = isSignedIn ? "Sign Out" : "Sign In";
+
         return (
             <Container>
                 <Row>
@@ -51,9 +63,9 @@ class HomePage extends Component {
                 <Row>
                     <Col>
                         <Button
-                            onClick={this.handleSignIn}
+                            onClick={isSignedIn ? this.handleSignOut : this.handleSignIn}
                         >
-                            SignIn
+                            { nameSignButton }
                             {/* eslint-disable-next-line react/destructuring-assignment */}
                             {this.state.redirect}
                         </Button>
@@ -95,11 +107,17 @@ HomePage.propTypes = {
     accountId: PropTypes.string,
     setRoom: PropTypes.func.isRequired,
     signInNearWallet: PropTypes.func.isRequired,
+    signOutNearWallet: PropTypes.func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+    accountId: state.app.accountId,
+});
 
 const mapDispatchToProps = (dispatch) => ({
     setRoom: (roomId) => dispatch(appOperations.setRoom(roomId)),
     signInNearWallet: () => dispatch(appOperations.signInNearWallet()),
+    signOutNearWallet: () => dispatch(appOperations.signOutNearWallet()),
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(HomePage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomePage));
