@@ -10,27 +10,32 @@ function initSocket(socket) {
     let id;
     socket
         .on("init", async () => {
-            console.log("user connected", socket.id);
+            // console.log("user connected", socket.id);
         })
         .on("register", (data) => {
             console.log("user redistered", data);
             users.create(socket, data.accountId);
         })
         .on("request", (data) => {
+            // console.log("request socket", data);
             const receiver = users.get(data.to);
             if (receiver) {
                 receiver.emit("request", { from: id });
             }
         })
         .on("call", (data) => {
+            console.log("call socket", data);
             const receiver = users.get(data.to);
             if (receiver) {
+                console.log("will call user");
                 receiver.emit("call", { ...data, from: id });
             } else {
+                console.log("fail call user");
                 socket.emit("failed");
             }
         })
         .on("end", (data) => {
+            console.log("end socket", data);
             const receiver = users.get(data.to);
             if (receiver) {
                 receiver.emit("end");

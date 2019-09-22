@@ -15,11 +15,13 @@ class HomePage extends Component {
     constructor(props) {
         super(props);
 
+        this.room = React.createRef();
         this.state = {
             redirect: null,
         };
 
         this.handleRoomCreation = this.handleRoomCreation.bind(this);
+        this.handleEnterRoom = this.handleEnterRoom.bind(this);
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleSignOut = this.handleSignOut.bind(this);
     }
@@ -34,17 +36,24 @@ class HomePage extends Component {
         }
     }
 
+    handleEnterRoom() {
+        const { accountId, setRoom } = this.props;
+        const room = this.room.current.value;
+        if (accountId != null) {
+            setRoom(room);
+            this.setState({
+                redirect: <Redirect to={`${routes.ROOM_PAGE.basePath}/${room}`} />,
+            });
+        }
+    }
+
     handleSignIn() {
         const { signInNearWallet } = this.props;
-        console.log("sign in");
-        console.log(signInNearWallet);
         signInNearWallet();
     }
 
     handleSignOut() {
         const { signOutNearWallet, accountId } = this.props;
-        console.log("sign out", accountId);
-        console.log(signOutNearWallet);
         signOutNearWallet();
     }
 
@@ -71,33 +80,45 @@ class HomePage extends Component {
                         </Button>
                     </Col>
                 </Row>
-                <Row>
-                    <Col>
-                        <Button
-                            onClick={this.handleRoomCreation}
-                        >
-                            Create new room
-                            {/* eslint-disable-next-line react/destructuring-assignment */}
-                            {this.state.redirect}
-                        </Button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <InputGroup type="text" placeholder="room id">
-                            <InputGroup.Prepend>
-                                <InputGroup.Text id="basic-addon1">Room ID</InputGroup.Text>
-                            </InputGroup.Prepend>
-                            <FormControl
-                                aria-label="Room ID"
-                                aria-describedby="basic-addon1"
-                            />
-                        </InputGroup>
-                    </Col>
-                    <Col>
-                        <Button>Connect to room</Button>
-                    </Col>
-                </Row>
+                { isSignedIn
+                    ? (
+                        <Row>
+                            <Col>
+                                <Button
+                                    onClick={this.handleRoomCreation}
+                                >
+                                Create new room
+                                    {/* eslint-disable-next-line react/destructuring-assignment */}
+                                    {this.state.redirect}
+                                </Button>
+                            </Col>
+                        </Row>
+                    ) : null }
+                { isSignedIn
+                    ? (
+                        <Row>
+                            <Col>
+                                <InputGroup type="text" placeholder="room id">
+                                    <InputGroup.Prepend>
+                                        <InputGroup.Text id="basic-addon1">Room ID</InputGroup.Text>
+                                    </InputGroup.Prepend>
+                                    <FormControl
+                                        aria-label="Room ID"
+                                        aria-describedby="basic-addon1"
+                                        ref={this.room}
+                                    />
+                                </InputGroup>
+                            </Col>
+                            <Col>
+                                <Button
+                                    onClick={this.handleEnterRoom}
+                                >
+Connect to room
+                                </Button>
+                            </Col>
+                        </Row>
+                    )
+                    : null}
             </Container>
         );
     }

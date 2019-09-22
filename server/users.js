@@ -1,6 +1,7 @@
 const users = {};
 
 exports.create = (socket, id) => {
+    console.log("added user", id)
     users[id] = socket;
     return id;
 };

@@ -3,7 +3,7 @@ import { consts } from "./index";
 export const STUN_SERVER_URL = "stun:stun.l.google.com:19302";
 
 export const { NODE_ENV } = process.env;
-export const SOCKET_HOST = "localhost:3000";
+export const SOCKET_HOST = "wss://10.87.72.101:3000";
 export const CONTRACT_NAME = "near-webrtc";
 
 export const NEAR_CONFIG = {

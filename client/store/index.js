@@ -9,6 +9,7 @@ import { NODE_ENV } from "config/consts";
 const persistConfig = {
     key: "root",
     storage,
+    blacklist: ["app"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

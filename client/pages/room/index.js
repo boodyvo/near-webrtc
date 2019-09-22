@@ -31,13 +31,13 @@ class RoomPage extends Component {
     }
 
     render() {
-        const { accountId } = this.props;
+        const { accountId, roomId } = this.props;
         let redirect = null;
+        const isOwner = (accountId === roomId);
+        console.log("isOwner", isOwner);
         if (accountId === undefined || accountId === null) {
             redirect = <Redirect to={routes.HOME_PAGE.path} />;
         }
-        console.log("accountId", accountId);
-        console.log("redirect", redirect);
 
         return (
             <Container>
@@ -46,10 +46,12 @@ class RoomPage extends Component {
                         New room
                     </Col>
                 </Row>
-                {/* eslint-disable-next-line jsx-a11y/media-has-caption,no-return-assign */}
-                <video id="peerVideo" ref={(el) => this.peerVideo = el} autoPlay />
-                {/* eslint-disable-next-line no-return-assign */}
-                <video id="localVideo" ref={(el) => this.localVideo = el} autoPlay muted />
+                {
+                    // eslint-disable-next-line jsx-a11y/media-has-caption,no-return-assign
+                    isOwner ? <video id="localVideo" ref={(el) => this.peerVideo = el} autoPlay />
+                        // eslint-disable-next-line no-return-assign
+                        : <video id="peerVideo" ref={(el) => this.localVideo = el} autoPlay muted />
+                }
                 {redirect}
             </Container>
         );
@@ -62,6 +64,7 @@ RoomPage.propTypes = {
     localSrc: PropTypes.object, // eslint-disable-line
     peerSrc: PropTypes.object, // eslint-disable-line
     accountId: PropTypes.string,
+    roomId: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
@@ -69,6 +72,7 @@ const mapStateToProps = (state) => ({
     localSrc: state.app.localSrc,
     peerSrc: state.app.peerSrc,
     accountId: state.app.accountId,
+    roomId: state.app.roomId,
 });
 
 export default connect(mapStateToProps)(RoomPage);
