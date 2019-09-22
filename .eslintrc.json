@@ -1,0 +1,48 @@
+{
+  "env": {"commonjs": true, "es6": true, "jquery": true, "node": true, "browser": true},
+  "extends": ["eslint:recommended", "plugin:react/recommended", "airbnb"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {"experimentalObjectRestSpread": true, "jsx": true},
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "globals": {
+    "document": true,
+    "Cookiebot": true
+  },
+  "plugins": ["react"],
+  "rules": {
+    "jsx-a11y/anchor-is-valid": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/no-redundant-roles": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "class-methods-use-this": 0,
+    "no-confusing-arrow": 0,
+    "no-nested-ternary": 0,
+    "no-await-in-loop": "off",
+    "import/extensions": ["off", "never"],
+    "import/no-extraneous-dependencies": ["error", {"peerDependencies": true}],
+    "no-unused-expressions": ["error", {"allowShortCircuit": true, "allowTernary": true}],
+    "indent": ["error", 4, {"SwitchCase": 1}],
+    "linebreak-style": 0,
+    "max-len": "off",
+    "no-console": 0,
+    "no-underscore-dangle": 0,
+    "no-unused-vars": 0,
+    "quotes": ["error", "double"],
+    "semi": ["error", "always", {"omitLastInOneLineBlock": true}],
+    "strict": [2, "global"],
+    "vars-on-top": 2,
+    "react/jsx-filename-extension": [1, {"extensions": [".js", ".jsx"]}],
+    "react/jsx-indent": ["error", 4],
+    "react/jsx-indent-props": ["error", 4],
+    "react/no-deprecated": 0,
+    "react/no-string-refs": 0,
+    "react/prop-types": 2,
+    "react/require-default-props": 0
+  },
+  "settings": {"import/resolver": {"node": {"paths": ["client"]}}}
+}
